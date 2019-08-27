@@ -10,7 +10,7 @@ function stepOne(filename) {
   const ast = parser.parse(content, {
     sourceType: 'module' //babel官方规定必须加这个参数，不然无法识别ES Module
   })
-  console.log(ast)
+  // console.log(ast)
   const dependencies = {}
   //遍历AST抽象语法树
   traverse.default(ast, {
@@ -36,7 +36,9 @@ function stepOne(filename) {
 function stepTwo(entry) {
   const entryModule = stepOne(entry)
   //这个数组是核心，虽然现在只有一个元素，往后看你就会明白
+  // console.log(entryModule)
   const graphArray = [entryModule]
+  // console.log(graphArray)
   for (let i = 0; i < graphArray.length; i++) {
     const item = graphArray[i]
     const { dependencies } = item //拿到文件所依赖的模块集合(键值对存储)
@@ -47,11 +49,13 @@ function stepTwo(entry) {
   //接下来生成图谱
   const graph = {}
   graphArray.forEach(item => {
+    // console.log(item)
     graph[item.filename] = {
       dependencies: item.dependencies,
       code: item.code
     }
   })
+  console.log(graph)
   return graph
 }
 
